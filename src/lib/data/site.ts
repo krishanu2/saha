@@ -17,6 +17,12 @@ export const courses = [
     title: "Competition Prep Coaching",
     description:
       "Full-cycle preparation from off-season to stage day — posing, peak week, and show-day execution.",
+    features: [
+      "Custom training + nutrition blocks",
+      "Weekly posing review with video feedback",
+      "Peak-week and show-day protocol",
+      "Direct WhatsApp access to Som",
+    ],
     duration: "12 Weeks",
     price: "₹45,000",
     size: "lg",
@@ -25,6 +31,7 @@ export const courses = [
     badge: "ONLINE COACHING",
     title: "Online Transformation Coaching",
     description: "Science-backed training and nutrition for serious physique transformation. 100% natural.",
+    features: ["Weekly check-ins", "Custom macros"],
     duration: "8 Weeks",
     price: "₹18,000",
     size: "sm",
@@ -33,6 +40,7 @@ export const courses = [
     badge: "POSING",
     title: "Posing Masterclass",
     description: "Learn stage-ready posing from an ICN Pro — Classic Physique and Men's Physique.",
+    features: ["1-on-1 sessions", "Video breakdown"],
     duration: "4 Sessions",
     price: "₹8,000",
     size: "sm",

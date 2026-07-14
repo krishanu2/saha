@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { Check } from "lucide-react";
 import { courses } from "@/lib/data/site";
 import { Button } from "@/components/ui/Button";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -66,17 +67,24 @@ type Course = (typeof courses)[number];
 
 function CourseCard({ course, tall = false }: { course: Course; tall?: boolean }) {
   return (
-    <div
-      className={`flex h-full flex-col justify-between gap-8 rounded-card border-t-2 border-accent bg-bg-card p-8 [@media(hover:hover)]:transition-transform [@media(hover:hover)]:duration-300 [@media(hover:hover)]:hover:-translate-y-1 ${tall ? "min-h-[22rem]" : "min-h-[16rem]"}`}
-    >
+    <div className="flex h-full flex-col justify-between gap-8 rounded-card border-t-2 border-accent bg-bg-card p-8 [@media(hover:hover)]:transition-transform [@media(hover:hover)]:duration-300 [@media(hover:hover)]:hover:-translate-y-1">
       <div>
         <span className="inline-block rounded-badge bg-accent px-3 py-1 font-body text-xs font-semibold tracking-wide text-bg-primary">
           {course.badge}
         </span>
-        <h3 className="mt-5 font-heading text-2xl font-bold leading-tight text-text-primary md:text-3xl">
+        <h3 className={`mt-5 font-heading font-bold leading-tight text-text-primary ${tall ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl"}`}>
           {course.title}
         </h3>
         <p className="mt-3 font-body text-sm leading-relaxed text-text-secondary">{course.description}</p>
+
+        <ul className="mt-6 flex flex-col gap-2.5">
+          {course.features.map((feature) => (
+            <li key={feature} className="flex items-start gap-2.5 font-body text-sm text-text-secondary">
+              <Check className="mt-0.5 size-4 shrink-0 text-accent" strokeWidth={2} />
+              {feature}
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="flex items-end justify-between gap-4">

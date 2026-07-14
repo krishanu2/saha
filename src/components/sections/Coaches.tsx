@@ -16,7 +16,7 @@ export function Coaches() {
 
       <div
         ref={trackRef}
-        className="no-scrollbar edge-fade-x flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2 md:px-12 lg:px-20"
+        className="no-scrollbar edge-fade-x flex cursor-grab select-none gap-6 overflow-x-auto px-6 pb-2 active:cursor-grabbing md:px-12 lg:px-20"
       >
         {coaches.map((coach, i) => (
           <CoachCard key={`${coach.name}-${i}`} coach={coach} />
@@ -30,12 +30,13 @@ type Coach = (typeof coaches)[number];
 
 function CoachCard({ coach }: { coach: Coach }) {
   return (
-    <div className="glass w-64 shrink-0 snap-start rounded-card p-6 md:w-72 [@media(hover:hover)]:transition-transform [@media(hover:hover)]:duration-300 [@media(hover:hover)]:hover:-translate-y-1">
+    <div className="glass w-64 shrink-0 rounded-card p-6 md:w-72 [@media(hover:hover)]:transition-transform [@media(hover:hover)]:duration-300 [@media(hover:hover)]:hover:-translate-y-1">
       <div className="relative h-64 w-full overflow-hidden rounded-input">
         <Image
           src={coach.image}
           alt={coach.name}
           fill
+          draggable={false}
           sizes="288px"
           className="object-cover object-top grayscale-[10%] [@media(hover:hover)]:transition-transform [@media(hover:hover)]:duration-500 [@media(hover:hover)]:hover:scale-[1.08]"
         />

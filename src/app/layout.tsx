@@ -49,6 +49,12 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col bg-bg-primary text-text-primary font-body"
       >
+        <a
+          href="#main-content"
+          className="skip-link rounded-btn bg-accent px-5 py-3 font-body text-sm font-bold text-bg-primary"
+        >
+          Skip to content
+        </a>
         <MotionProvider>{children}</MotionProvider>
       </body>
     </html>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -14,6 +14,7 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState<string | null>(null);
   const { scrollY } = useScroll();
   const prevY = useRef(0);
 
@@ -25,6 +26,25 @@ export function Navigation() {
     }
     prevY.current = latest;
   });
+
+  useEffect(() => {
+    const targets = navLinks
+      .map((link) => document.getElementById(link.href.slice(1)))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          setActiveHref(`#${visible[0].target.id}`);
+        }
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
+    );
+
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -44,16 +64,30 @@ export function Navigation() {
           </Link>
 
           <ul className="hidden items-center gap-10 md:flex">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="interactive relative font-body text-sm text-text-secondary transition-colors duration-200 hover:text-accent"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeHref === link.href;
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={isActive ? "true" : undefined}
+                    className={cn(
+                      "interactive relative pb-1 font-body text-sm transition-colors duration-200 hover:text-accent",
+                      isActive ? "text-accent" : "text-text-secondary",
+                    )}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-active-dot"
+                        className="absolute inset-x-0 -bottom-0.5 h-px bg-accent"
+                        transition={{ duration: 0.3, ease: EASE_IN_OUT }}
+                      />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="hidden md:block">
