@@ -17,9 +17,10 @@ export function Footer() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="interactive font-body text-sm text-text-secondary transition-colors duration-200 hover:text-accent"
+                  className="interactive group relative inline-block font-body text-sm text-text-secondary transition-colors duration-200 hover:text-accent"
                 >
                   {link.label}
+                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-200 ease-out-cubic group-hover:w-full" />
                 </Link>
               </li>
             ))}
@@ -29,14 +30,14 @@ export function Footer() {
             <Link
               href="#"
               aria-label="Instagram"
-              className="interactive flex size-11 items-center justify-center rounded-full border border-white/10 text-text-secondary transition-colors duration-200 hover:border-accent hover:text-accent"
+              className="interactive flex size-11 items-center justify-center rounded-full border border-white/10 text-text-secondary transition-all duration-200 [@media(hover:hover)]:hover:scale-[1.15] [@media(hover:hover)]:hover:border-accent [@media(hover:hover)]:hover:text-accent"
             >
               <Camera className="size-4" strokeWidth={1.5} />
             </Link>
             <Link
               href="#"
               aria-label="WhatsApp"
-              className="interactive flex size-11 items-center justify-center rounded-full border border-white/10 text-text-secondary transition-colors duration-200 hover:border-accent hover:text-accent"
+              className="interactive flex size-11 items-center justify-center rounded-full border border-white/10 text-text-secondary transition-all duration-200 [@media(hover:hover)]:hover:scale-[1.15] [@media(hover:hover)]:hover:border-accent [@media(hover:hover)]:hover:text-accent"
             >
               <MessageCircle className="size-4" strokeWidth={1.5} />
             </Link>

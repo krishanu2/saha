@@ -1,11 +1,12 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, type Variants } from "framer-motion";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 
 const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1549476464-37392f717541?w=1200&h=1600&fit=crop&crop=faces&q=85&auto=format";
+  "https://images.unsplash.com/photo-1549476464-37392f717541?w=1200&h=1600&fit=crop&crop=focalpoint&fp-x=0.5&fp-y=0.42&fp-z=1.3&q=85&auto=format";
 
 const HEADLINE_LINES = ["DISCIPLINE IS", "THE ONLY", "SUPPLEMENT", "THAT NEVER", "RUNS OUT."];
 
@@ -21,9 +22,26 @@ const fadeUp: Variants = {
 
 export function Hero() {
   let wordIndex = 0;
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 90]);
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative flex min-h-[100svh] w-full flex-col overflow-hidden bg-bg-primary md:flex-row"
     >
@@ -101,7 +119,8 @@ export function Hero() {
         initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-        className="relative h-[46svh] w-full md:h-auto md:w-[46%]"
+        style={isDesktop ? { y: imageY } : undefined}
+        className="relative h-[46svh] w-full overflow-hidden md:h-auto md:w-[46%]"
       >
         <Image
           src={HERO_IMAGE}
@@ -111,8 +130,7 @@ export function Hero() {
           sizes="(min-width: 768px) 46vw, 100vw"
           className="object-cover object-top grayscale-[15%] contrast-[1.08] saturate-[0.9]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-bg-primary/5 to-transparent md:bg-gradient-to-l md:from-transparent md:via-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/55 via-transparent to-transparent md:bg-gradient-to-r md:from-bg-primary/30 md:via-transparent md:to-transparent" />
 
         {/* Editorial location tag */}
         <div className="absolute bottom-6 right-6 flex items-center gap-2 rounded-badge bg-bg-primary/80 px-4 py-2 backdrop-blur-sm">
